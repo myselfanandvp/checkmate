@@ -5,9 +5,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProductForm
 from .models import Product
+
 # Create your views here.
-
-
 @method_decorator(never_cache, name='dispatch')
 class CreateProduct(LoginRequiredMixin,View):
     login_url='loginurl'
@@ -31,7 +30,8 @@ class ListProduct(LoginRequiredMixin,View):
     is_productpage = True
     template_name = 'productlist.html'
 
-    def get(self, request):        
+    def get(self, request): 
+        recent_edited = request.session.get("recent_edited_products",[])       
         products = Product.objects.all()
         return render(request,self.template_name , {'products': products, 'is_productpage': self.is_productpage})
 
@@ -43,6 +43,7 @@ class EditProduct(LoginRequiredMixin,View):
     login_url='loginurl'
     is_productpage = True
     template_name = 'producteditpage.html'
+    
     def get(self, request, product_id):        
         product = get_object_or_404(Product, id=product_id)
         editedproduct = ProductForm(instance=product)
