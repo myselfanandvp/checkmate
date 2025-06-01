@@ -1,0 +1,54 @@
+{%extends 'base.html'%}
+
+
+{%block content%}
+
+
+<div class="container-fluid">
+
+    <div
+        class="d-flex justify-content-lg-evenly align-content-lg-center flex-lg-row flex-column justify-content-center align-items-center p-2 gap-3">
+
+
+        {%for product in products%}
+        <div class="card" style="width: 18rem;">
+            <img src="{{product.product_img.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title text-capitalize">{{product.title}}</h5>
+                <p class="card-text text-uppercase">description: {{product.description}}</p>
+                <p class="card-text text-uppercase">price: {{product.price}}$</p>
+                <p class="card-text text-uppercase">Stock: {{product.stock}}</p>
+                <p class="card-text text-uppercase">Category: {{product.Category}}</p>
+                <div class="container">
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'editproducturl' product_id=product.id %}" class="btn btn-primary">Edit</a>
+                        <form method="post" action="{% url 'deleteproducturl' product_id=product.id %}"
+                            onsubmit="return confirmsumbit();">
+                            {%csrf_token%}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {%endfor%}
+    </div>
+
+
+
+</div>
+
+<script>
+
+    confirmsumbit = () => confirm("Are you sure you want to delete this product?")
+</script>
+
+
+
+{%endblock%}

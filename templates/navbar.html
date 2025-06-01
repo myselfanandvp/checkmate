@@ -1,0 +1,66 @@
+{%load static%}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- <a class="navbar-brand" href="{%url 'homeurl'%}">Navbar</a> -->
+    <img src="{%static 'images/35322171_8_1sasa11.svg'%}"  width="60" alt="">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-lg-center align-items-end gap-3 mx-2">
+
+
+            {%if user.is_authenticated%}
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'homeurl'%}">Home</a>
+            </li>
+            {%if not is_productpage|default:False %}
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'listproducturl'%}">Products</a>
+            </li>
+            {%endif%}
+            {%if is_productpage%}
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'createproducturl'%}">Create Product</a>
+            </li>
+
+            </li>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'listproducturl'%}">Product List</a>
+            </li>
+            {%endif%}
+
+            {%if user.profile_img%}
+            <li class="nav-item">
+                <div class="profile-pic">
+
+                    <img src="{{user.profile_img.url}}" alt="Profile">
+                </div>
+            </li>
+            {%endif%}
+            <li class="nav-item">
+                <form method="post" action="{%url 'logouturl'%}">
+                    {%csrf_token%}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </li>
+
+            {%else%}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{%url 'loginurl'%}">Login</a>
+            </li>
+            <li class="nav-item">
+
+                <a class="nav-link" href="{%url 'signupurl'%}">Signup</a>
+            </li>
+            {%endif%}
+
+        </ul>
+    </div>
+</nav>
